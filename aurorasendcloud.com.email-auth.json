@@ -7,33 +7,33 @@
     "logoUrl": "https://www.aurorasendcloud.com/logo_simple.svg",
     "syncPubKeyDomain": "aurorasendcloud.com",
     "description": "Configures DNS records for SendCloud email Sending",
-    "variableDescription": "dkimvalue: DKIM public key value. dmarcvalue: DMARC policy.",
+    "variableDescription": "spfvalue: subdomain or @. subvalue: subdomain. dkimvalue: DKIM public key value. dmarcvalue: DMARC policy.",
     "records": [
         {
             "groupId": "classic",
             "type": "SPFM",
-            "host": "@",
+            "host": "%spfvalue%",
             "spfRules": "include:spf.sendcloud.org",
             "ttl": 600
         },
         {
             "groupId": "classic",
             "type": "TXT",
-            "host": "mail._domainkey",
+            "host": "mail._domainkey%subvalue%",
             "data": "k=rsa;p=%dkimvalue%",
             "ttl": 600
         },
         {
             "groupId": "classic",
             "type": "TXT",
-            "host": "_dmarc",
+            "host": "_dmarc%subvalue%",
             "data": "v=DMARC1;p=%dmarcvalue%",
             "ttl": 600
         },
         {
             "groupId": "classic",
             "type": "MX",
-            "host": "@",
+            "host": "%spfvalue%",
             "pointsTo": "mx2.sendcloud.org",
             "ttl": 600,
             "priority": 10
@@ -41,35 +41,35 @@
         {
             "groupId": "auto",
             "type": "SPFM",
-            "host": "@",
+            "host": "%spfvalue%",
             "spfRules": "include:spf.sendcloud.org",
             "ttl": 600
         },
         {
             "groupId": "auto",
             "type": "CNAME",
-            "host": "e1._domainkey",
+            "host": "e1._domainkey%subvalue%",
             "pointsTo": "e1._domainkey.%dkimvalue%",
             "ttl": 600
         },
         {
             "groupId": "auto",
             "type": "CNAME",
-            "host": "e2._domainkey",
+            "host": "e2._domainkey%subvalue%",
             "pointsTo": "e2._domainkey.%dkimvalue%",
             "ttl": 600
         },
         {
             "groupId": "auto",
             "type": "TXT",
-            "host": "_dmarc",
+            "host": "_dmarc%subvalue%",
             "data": "v=DMARC1;p=%dmarcvalue%",
             "ttl": 600
         },
         {
             "groupId": "auto",
             "type": "MX",
-            "host": "@",
+            "host": "%spfvalue%",
             "pointsTo": "mx2.sendcloud.org",
             "ttl": 600,
             "priority": 10
